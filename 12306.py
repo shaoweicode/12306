@@ -35,20 +35,29 @@ while i < len(stations):
     stations_dic[stations[i]]=stations[i+1]
     i=i+5
 
+class TrainsCollections(object):
+	"""docstring for TrainsCollections"""
+	def __init__(self, available_trains,options):
+		super(TrainsCollections, self).__init__()
+		self.available_trains = available_trains
+		self.options=options
+		
+
+
 
 def cli():
     arguments = docopt(__doc__)
     from_station = stations_dic.get(arguments['<from>'])
     to_station = stations_dic.get(arguments['<to>'])
-    date = stations_dic.get(arguments['<date>'])
+    date = arguments['<date>']
 #goujian url
-    url = 'https://kyfw.12306.cn/otn/lcsscx/query?purpose_codes=ADULTqueryDate={}&from_station={}&to_station={}'.format(date,from_station,to_station)
+    url='https://kyfw.12306.cn/otn/leftTicket/query?leftTicketDTO.train_date={}&leftTicketDTO.from_station={}&leftTicketDTO.to_station={}&purpose_codes=ADULT'.format(date,from_station,to_station)
     r = requests.get(url,verify=False)
-    print(r.json())
-
-
+    options = ''.join([key for key,value in arguments.items() if value is True])
+    available_trains = r['data']['result']
+    TrainsCollections(available_trains,options).pretty_print()
 if __name__ == '__main__':
 	cli()
 
-    
+#https://kyfw.12306.cn/otn/leftTicket/query?leftTicketDTO.train_date=2017-12-01&leftTicketDTO.from_station=BJP&leftTicketDTO.to_station=SHH&purpose_codes=ADULT    
 
