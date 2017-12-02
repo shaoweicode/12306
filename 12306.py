@@ -41,6 +41,27 @@ class TrainsCollections(object):
 		super(TrainsCollections, self).__init__()
 		self.available_trains = available_trains
 		self.options=options
+    def get_information(self):
+        for train in available_trains:
+            train_list = train.split('|')
+            train_no = train_list[3]
+            initial = train_no[0].lower()
+            if not self.options or initial in self.options:
+                train = [
+                        train_no,
+                        '\n'.join([train_list[4],train_list[5]]),
+                        '\n'.join([train_list[8],train_list[9]]),
+                        train_list[10],
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        ]
+            
+            
 		
 
 
